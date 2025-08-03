@@ -1,0 +1,11 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.2  # Specify the version of Ruff you want to use
+    hooks:
+      - id: ruff
+        types_or: [python, pyi]
+        exclude: 'alembic/.*|tests/.*'  # Exclude migrations and tests folders
+        args: [--fix, --select=I]  # Enable automatic fixes and import sorting
+      - id: ruff-format  # Run the formatter
+        types_or: [python, pyi]
+        exclude: 'alembic/.*|tests/.*'  # Exclude migrations and tests folders
