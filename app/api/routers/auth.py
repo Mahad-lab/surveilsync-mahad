@@ -1,5 +1,6 @@
 # fastapi
 from datetime import timedelta
+from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
@@ -11,6 +12,7 @@ from app.api.functions import auth as auth_functions
 from app.core.dependencies import get_db
 
 # import
+from app.utils.constant.globals import UserRole
 from app.schemas.user import Token
 from app.utils.env import (
     ACCESS_TOKEN_EXPIRE_DAYS,
@@ -53,3 +55,8 @@ async def login_for_access_token(
 async def refresh_access_token(refresh_token: str, db: Session = Depends(get_db)):
     token = await auth_functions.refresh_access_token(db, refresh_token)
     return token
+
+
+@router.get("/roles", response_model=List[str])
+async def get_roles():
+    return [role.value for role in UserRole]
