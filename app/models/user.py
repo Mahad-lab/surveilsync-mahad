@@ -1,5 +1,3 @@
-from enum import Enum as PythonEnum
-
 from sqlalchemy import Column, Enum, String
 
 from app.core.database import Base
