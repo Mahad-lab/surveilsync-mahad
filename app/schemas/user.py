@@ -14,7 +14,7 @@ class UserCreate(UserBase):
     password: str
     first_name: str | None = None
     last_name: str | None = None
-    role: str | UserRole
+    role: UserRole
 
 
 class UserLogin(UserBase):
