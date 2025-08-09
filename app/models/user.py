@@ -13,7 +13,7 @@ class User(CommonModel):
     last_name = Column(String(50), nullable=True)
     email = Column(String(50), unique=True, index=True)
     password = Column(String(100), nullable=False)
-    role = Column(Enum(UserRole), default=UserRole.USER)
+    role = Column(Enum(UserRole), default=None, nullable=True)
 
     def __repr__(self):
         return f"{self.first_name} {self.last_name} ({self.email})"

@@ -27,6 +27,6 @@ async def hospital_admin_access(db: Session = Depends(get_db)):
     return {"msg": "This is hospital admin access point"}
 
 
-@router.get("/superadmin", dependencies=[RoleChecks.SUPERADMIN])
+@router.get("/project_admin", dependencies=[RoleChecks.PROJECT_ADMIN])
 async def superadmin_access(db: Session = Depends(get_db)):
-    return {"msg": "This is superadmin access point"}
+    return {"msg": "This is project admin access point"}

@@ -26,6 +26,10 @@ def verify_password(plain_password, hashed_password):
 
 
 async def authenticate_user(db: Session, user: OAuth2PasswordRequestForm):
+    scopes = user.scopes
+    # if len(scopes) != 1:
+    #     return False
+     
     member = await get_user_by_email(db, user.username)
     if not member:
         return False

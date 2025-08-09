@@ -1,8 +1,8 @@
 """initial
 
-Revision ID: 065160927fcf
+Revision ID: 6fec6eb620db
 Revises: 
-Create Date: 2025-08-2 03:40:14.906957
+Create Date: 2025-08-09 20:18:00.372469
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '065160927fcf'
+revision: str = '6fec6eb620db'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -24,12 +24,12 @@ def upgrade() -> None:
     sa.Column('first_name', sa.String(length=50), nullable=True),
     sa.Column('last_name', sa.String(length=50), nullable=True),
     sa.Column('email', sa.String(length=50), nullable=True),
-    sa.Column('password', sa.String(length=50), nullable=True),
-    sa.Column('role', sa.Enum('USER', 'ADMIN', name='userrole'), nullable=True),
+    sa.Column('password', sa.String(length=100), nullable=False),
+    sa.Column('role', sa.Enum('ADMIN', 'NURSE', 'IPC_OFFICER', 'HOSPITAL_ADMIN', 'PROJECT_ADMIN', name='userrole'), nullable=True),
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=True),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
