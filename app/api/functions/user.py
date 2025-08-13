@@ -58,7 +58,10 @@ async def update_user(db: Session, user_id: int, user: UserUpdate):
 # delete user
 async def delete_user(db: Session, user_id: int):
     db_user = await get_user_by_id(db, user_id)
-    db.delete(db_user)
+    # db.delete(db_user)
+    db_user.is_active = True  # Soft delete
+    db.add(db_user)
+    # db.flush()  # Ensure the changes are applied before commit
     db.commit()
     # db.refresh(db_user)
     return {"msg": f"{db_user.email} deleted successfully"}

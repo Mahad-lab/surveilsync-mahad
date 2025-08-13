@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.core.dependencies import get_db
 from app.utils.constant.roles import RoleChecks
 
-router = APIRouter()
+router = APIRouter(prefix="/rbac", tags=["RBAC [ONLY FOR TESTING]"])
 
 
 @router.get("/admin", dependencies=[RoleChecks.ADMIN])

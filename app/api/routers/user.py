@@ -15,12 +15,7 @@ from app.core.rolechecker import RoleChecker
 from app.schemas.pagination import PaginationParams
 from app.schemas.user import User, UserCreate, UserUpdate
 
-router = APIRouter()
-
-
-# @user_module.get('/')
-# async def read_auth_page():
-#     return {"msg": "Auth page Initialization done"}
+router = APIRouter(prefix="/users", tags=["users"])
 
 
 # get current user

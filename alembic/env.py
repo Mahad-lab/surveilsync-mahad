@@ -9,6 +9,7 @@ from app.core.database import Base, SQLALCHEMY_DATABASE_URL
 # Import models here to ensure they are registered with SQLAlchemy
 # ---START OF IMPORTS---
 from app.models.user import User
+from app.models.hospital import Hospital
 # ---END OF IMPORTS---
 
 # this is the Alembic Config object, which provides

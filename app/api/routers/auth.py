@@ -19,7 +19,7 @@ from app.utils.env import (
     REFRESH_TOKEN_EXPIRE_DAYS,
 )
 
-router = APIRouter()
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 # ============> login/logout < ======================
