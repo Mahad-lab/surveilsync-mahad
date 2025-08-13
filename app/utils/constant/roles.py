@@ -12,6 +12,10 @@ class RoleChecks:
     HOSPITAL_ADMIN = Depends(RoleChecker([UserRole.HOSPITAL_ADMIN]))
     PROJECT_ADMIN = Depends(RoleChecker([UserRole.PROJECT_ADMIN]))
 
+    PROJECT_ADMIN_OR_HOSPITAL_ADMIN = Depends(
+        RoleChecker([UserRole.PROJECT_ADMIN, UserRole.HOSPITAL_ADMIN])
+    )
+
     @staticmethod
     def custom(roles: list[UserRole]):
         return Depends(RoleChecker(roles))

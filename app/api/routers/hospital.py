@@ -7,21 +7,20 @@ from app.schemas.hospital import Hospital, HospitalCreate, HospitalUpdate
 from app.schemas.pagination import PaginationParams, PaginationResponse
 from app.utils.constant.roles import RoleChecks
 
-router = APIRouter(
-    prefix="/hospitals", tags=["hospitals"], dependencies=[RoleChecks.PROJECT_ADMIN]
-)
+router = APIRouter(prefix="/hospitals", tags=["hospitals"])
 
 
-@router.post("/", response_model=Hospital)
+@router.post("/", response_model=Hospital, dependencies=[RoleChecks.PROJECT_ADMIN])
 async def create_hospital(hospital: HospitalCreate, db: Session = Depends(get_db)):
     return hospital_crud.create_hospital(db=db, name=hospital.name)
 
 
-@router.get("/{hospital_id}/", response_model=Hospital)
+@router.get(
+    "/{hospital_id}/", response_model=Hospital, dependencies=[RoleChecks.PROJECT_ADMIN_OR_HOSPITAL_ADMIN]
+)
 async def read_hospital(
     hospital_id: int,
     db: Session = Depends(get_db),
-    depends=[RoleChecks.HOSPITAL_ADMIN, RoleChecks.PROJECT_ADMIN],
 ):
     hospital = hospital_crud.get_hospital(db=db, hospital_id=hospital_id)
     if not hospital:
@@ -29,7 +28,7 @@ async def read_hospital(
     return hospital
 
 
-@router.get("/", response_model=PaginationResponse[Hospital])
+@router.get("/", response_model=PaginationResponse[Hospital], dependencies=[RoleChecks.PROJECT_ADMIN])
 async def read_hospitals(
     pagination: PaginationParams = Depends(), db: Session = Depends(get_db)
 ):
@@ -47,12 +46,11 @@ async def read_hospitals(
         raise HTTPException(status_code=500, detail="Error fetching hospitals")
 
 
-@router.put("/{hospital_id}/", response_model=Hospital)
+@router.put("/{hospital_id}/", response_model=Hospital, dependencies=[RoleChecks.PROJECT_ADMIN_OR_HOSPITAL_ADMIN])
 async def update_hospital(
     hospital_id: int,
     hospital: HospitalUpdate,
     db: Session = Depends(get_db),
-    depends=[RoleChecks.HOSPITAL_ADMIN, RoleChecks.PROJECT_ADMIN],
 ):
     updated_hospital = hospital_crud.update_hospital(
         db=db, hospital_id=hospital_id, name=hospital.name
@@ -62,9 +60,10 @@ async def update_hospital(
     return updated_hospital
 
 
-@router.delete("/{hospital_id}/", response_model=dict)
+@router.delete("/{hospital_id}/", response_model=dict, dependencies=[RoleChecks.PROJECT_ADMIN])
 async def delete_hospital(hospital_id: int, db: Session = Depends(get_db)):
     success = hospital_crud.delete_hospital(db=db, hospital_id=hospital_id)
     if not success:
         raise HTTPException(status_code=404, detail="Hospital not found")
     return {"detail": "Hospital deleted successfully"}
+
